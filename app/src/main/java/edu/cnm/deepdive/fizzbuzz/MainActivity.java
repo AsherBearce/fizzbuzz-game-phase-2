@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.fizzbuzz;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -18,17 +19,33 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+/**
+ * Main game play screen for FizzBuzz number classification game.
+ * <p>When the game is running, this class displays a randomly selected number; the user then
+ * flings the number in one of 4 directions, to indicate whether the number is a Fizz (divisible by
+ * 3), Buzz (divisible by 5), FizzBuzz (divisible by both 3 & 5), or neither Fizz nor Buzz. A record
+ * of numbers displayed, user actions, as well as an overall correct/incorrect tally are kept.</p>
+ */
+public class MainActivity extends AppCompatActivity
+    implements View.OnTouchListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
   private Random rng = new Random();
   private int value;
+  private boolean running;
   private TextView valueDisplay;
   private ViewGroup valueContainer;
   private Rect displayRect = new Rect();
   private GestureDetectorCompat detector;
   private Timer timer;
-  private boolean running;
+  private SharedPreferences preferences;
 
+  /**
+   * Initializes this activity when created, and when restored after {@link #onDestroy()} (for
+   * example, after a change of orientation). In the latter case, the game state is retrieved from
+   * <code>savedInstanceState</code>.
+   *
+   * @param savedInstanceState saved game state {@link Bundle}.
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -37,32 +54,62 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     valueContainer = (ViewGroup) valueDisplay.getParent();
     detector = new GestureDetectorCompat(this, new FlingListener());
     valueContainer.setOnTouchListener(this);
+    preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    preferences.registerOnSharedPreferenceChangeListener(this);
     // TODO Restore any necessary fields, set game state, etc.
   }
 
+  /**
+   * Updates timer(s) and UI to return display &amp; game to the pre-{@link #onPause()} state.
+   */
   @Override
   protected void onResume() {
     super.onResume();
     // TODO Resume game if running.
   }
 
+  /**
+   * Captures current state of timer(s) to fields, for possible saving by subsequent {@link
+   * #onSaveInstanceState(Bundle)} invocation and/or restoration by {@link #onResume()} invocation.
+   */
   @Override
   protected void onPause() {
     super.onPause();
+    // TODO Record any in-progress data from timers, etc. to fields.
   }
 
+  /**
+   * Writes critical game state information to <code>outState</code>.
+   *
+   * @param outState game state write target.
+   */
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    // TODO Save and necessary fields.
+    // TODO Save any necessary fields.
   }
 
+  /**
+   * Inflates menu options for control of game, access to settings, and display of current game
+   * results.
+   *
+   * @param menu {@link Menu} to which inflated options are added.
+   * @return flag indicating that a menu was inflated &amp; added (always <code>true</code> in this
+   * case).
+   */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.options, menu);
     return true;
   }
 
+  /**
+   * Updates visible and enabled state of menu options, depending on game state.
+   *
+   * @param menu options menu.
+   * @return flag indicating that the options menu should be re-rendered (always <code>true</code>
+   * in this case).
+   */
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     MenuItem play = menu.findItem(R.id.play);
@@ -74,6 +121,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     return true;
   }
 
+  /**
+   * Handles user selection from the options menu.
+   *
+   * @param item option selected.
+   * @return flag indicating that the selection was handled (or not).
+   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     boolean handled = true;
@@ -95,8 +148,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     return handled;
   }
 
+  /**
+   * Handles user touch events on the screen. In general, these are handled simply by delegating to
+   * an instance of a {@link android.view.GestureDetector.SimpleOnGestureListener} subclass.
+   *
+   * @param view target of touch event.
+   * @param event details of event (location, type, time, etc.).
+   * @return flag indicating that the user touch event was handled (or not).
+   */
   @Override
-  public boolean onTouch(View v, MotionEvent event) {
+  public boolean onTouch(View view, MotionEvent event) {
     boolean handled = false;
     if (running) {
       handled = detector.onTouchEvent(event);
@@ -107,6 +168,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
       }
     }
     return handled;
+  }
+
+  /**
+   * Detects and handles changes in any {@link SharedPreferences} values in which this app's
+   * configuration settings are stored. Most such changes are handled by re-starting the game in
+   * progress (if any).
+   *
+   * @param sharedPreferences configuration settings.
+   * @param key specific setting changed.
+   */
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    // TODO Set any necessary flags, etc. to indicate game should be restarted.
   }
 
   private void pauseGame() {
