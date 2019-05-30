@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fizzbuzz;
+package edu.cnm.deepdive.fizzbuzz.controller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.preference.PreferenceManager;
+import edu.cnm.deepdive.fizzbuzz.R;
+import edu.cnm.deepdive.fizzbuzz.model.Game;
+import edu.cnm.deepdive.fizzbuzz.model.Round;
+import edu.cnm.deepdive.fizzbuzz.model.Round.Category;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity
   private GestureDetectorCompat detector;
   private Timer timer;
   private SharedPreferences preferences;
+  private Game game;
 
   /**
    * Initializes this activity when created, and when restored after {@link #onDestroy()} (for
@@ -195,19 +200,33 @@ public class MainActivity extends AppCompatActivity
 
   private void resumeGame() {
     running = true;
+    if (game == null){
+      int numDigits = preferences.getInt(getString(R.string.num_digits_key),
+          getResources().getInteger(R.integer.num_digits_default));
+      int timeLimit = preferences.getInt(getString(R.string.time_limit_key),
+          getResources().getInteger(R.integer.time_limit_default));
+      int gameTime = preferences.getInt(getString(R.string.game_time_key),
+          getResources().getInteger(R.integer.game_time_default));
+
+      game = new Game(timeLimit, numDigits, gameTime);
+    }
     updateValue();
     // TODO Update any additional necessary fields.
     invalidateOptionsMenu();
   }
 
+  private void recordRound(Category selection){
+    Category category = Category.fromValue(value);
+    Round round = new Round(value, category, selection);
+    game.add(round);
+  }
+
   private void updateValue() {
-    int numDigits = PreferenceManager.getDefaultSharedPreferences(this)
-        .getInt(getString(R.string.num_digits_key),
-            getResources().getInteger(R.integer.num_digits_default));
+    int numDigits = preferences.getInt(getString(R.string.num_digits_key),
+        getResources().getInteger(R.integer.num_digits_default));
     int valueLimit = (int) Math.pow(10, numDigits) - 1;
-    int timeLimit = PreferenceManager.getDefaultSharedPreferences(this)
-        .getInt(getString(R.string.time_limit_key),
-            getResources().getInteger(R.integer.time_limit_default));
+    int timeLimit = preferences.getInt(getString(R.string.time_limit_key),
+        getResources().getInteger(R.integer.time_limit_default));
     if (timer != null) {
       timer.cancel();
     }
@@ -219,6 +238,8 @@ public class MainActivity extends AppCompatActivity
     valueDisplay.getPaint().getTextBounds(valueString, 0, valueString.length(), displayRect);
     displayRect.top += valueDisplay.getBaseline();
     displayRect.bottom += valueDisplay.getBaseline();
+    displayRect.left = valueDisplay.getLeft();
+    displayRect.right = valueDisplay.getRight();
     if (timeLimit != 0) {
       timer = new Timer();
       timer.schedule(new TimeoutTask(), timeLimit * 1000);
@@ -229,7 +250,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void run() {
-      runOnUiThread(() -> updateValue());
+      runOnUiThread(() -> {
+        recordRound(null);
+        updateValue();
+      });
     }
 
   }
@@ -263,15 +287,15 @@ public class MainActivity extends AppCompatActivity
       if (speed >= SPEED_THRESHOLD && ellipticalDistance >= 1) {
         if (Math.abs(deltaY) * containerWidth <= Math.abs(deltaX) * containerHeight) {
           if (deltaX > 0) {
-            Log.d("Trace", "Right fling");
+            recordRound(Round.Category.BUZZ);
           } else {
-            Log.d("Trace", "Left fling");
+            recordRound(Round.Category.FIZZ);
           }
         } else {
           if (deltaY > 0) {
-            Log.d("Trace", "Down fling");
+            recordRound(Round.Category.NEITHER);
           } else {
-            Log.d("Trace", "Up fling");
+            recordRound(Round.Category.FIZZ_BUZZ);
           }
         }
         updateValue();

@@ -10,10 +10,10 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".SettingsActivity"
+      android:name=".controller.SettingsActivity"
       android:label="Settings"
-      android:parentActivityName=".MainActivity"/>
-    <activity android:name=".MainActivity">
+      android:parentActivityName=".controller.MainActivity"/>
+    <activity android:name=".controller.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

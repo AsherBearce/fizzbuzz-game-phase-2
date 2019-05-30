@@ -1,10 +1,11 @@
-package edu.cnm.deepdive.fizzbuzz;
+package edu.cnm.deepdive.fizzbuzz.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
+import edu.cnm.deepdive.fizzbuzz.R;
 
 /**
  * Activity hosting {@link SettingsFragment}, in order to display and allow user changes to
