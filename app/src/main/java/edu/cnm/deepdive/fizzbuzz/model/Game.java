@@ -1,10 +1,12 @@
 package edu.cnm.deepdive.fizzbuzz.model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
+  private static final long serialVersionUID = 755828491505417423L;
   private final int timeLimit;
   private final int maxDigits;
   private final int gameDuration;

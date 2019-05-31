@@ -22,4 +22,9 @@
     android:title="@string/settings"
     app:showAsAction="never"/>
 
+  <item
+    android:id="@+id/status"
+    android:title="@string/status"
+    app:showAsAction="never"/>
+
 </menu>

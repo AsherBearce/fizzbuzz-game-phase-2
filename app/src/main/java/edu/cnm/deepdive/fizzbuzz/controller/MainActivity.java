@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     boolean handled = true;
+    Intent intent;
     switch (item.getItemId()) {
       case R.id.play:
         resumeGame();
@@ -143,7 +144,12 @@ public class MainActivity extends AppCompatActivity
         pauseGame();
         break;
       case R.id.settings:
-        Intent intent = new Intent(this, SettingsActivity.class);
+        intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        break;
+      case R.id.status:
+        intent = new Intent(this, StatusActivity.class);
+        intent.putExtra(getString(R.string.game_data_key), game);
         startActivity(intent);
         break;
       default:
