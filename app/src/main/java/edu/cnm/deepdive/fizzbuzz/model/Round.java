@@ -60,5 +60,11 @@ public class Round implements Serializable {
 
       return category;
     }
+
+    @Override
+    public String toString() {
+
+      return super.toString().toLowerCase();
+    }
   }
 }
