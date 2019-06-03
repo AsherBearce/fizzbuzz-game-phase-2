@@ -24,6 +24,22 @@ public class Round implements Serializable {
     return String.format(FORMAT_STRING, value, category, selection);
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public Category getSelection() {
+    return selection;
+  }
+
+  public boolean isCorrect(){
+    return selection == category;
+  }
+
   public enum Category {
     FIZZ, BUZZ, FIZZ_BUZZ, NEITHER;
 
