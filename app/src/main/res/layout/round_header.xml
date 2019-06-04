@@ -4,29 +4,27 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:padding="@dimen/round_item_padding"
-  android:theme="@style/RoundItem">
+  android:theme="@style/RoundHeader">
 
   <TextView
-    android:id="@+id/value_display"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:layout_gravity="center"
-    android:textAlignment="center"/>
+    android:text="@string/value_header"/>
 
   <TextView
-    android:id="@+id/category_display"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="2"
     android:layout_gravity="center"
-    android:textAlignment="center"/>
+    android:text="@string/category_header"/>
 
-  <ImageView
-    android:id="@+id/result_display"
+  <TextView
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:layout_gravity="center"/>
+    android:layout_gravity="center"
+    android:text="@string/correct_header"/>
 
 </LinearLayout>

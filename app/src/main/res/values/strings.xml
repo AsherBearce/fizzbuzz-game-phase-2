@@ -30,4 +30,11 @@
   <string name="fizz_buzz">Fizz Buzz</string>
   <string name="neither"> </string>
 
+  <string name="value_header">Value</string>
+  <string name="category_header">Category</string>
+  <string name="correct_header">Correct?</string>
+
+  <string name="correct_description">Correct!</string>
+  <string name="incorrect_description">Incorrect!</string>
+
 </resources>

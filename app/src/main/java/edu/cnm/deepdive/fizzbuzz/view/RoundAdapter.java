@@ -19,14 +19,22 @@ import java.util.List;
 
 public class RoundAdapter extends ArrayAdapter<Round> {
 
-  private Drawable correct;
-  private Drawable incorrect;
+  private Drawable correctDrawable;
+  private Drawable incorrectDrawable;
+  private String correctDescription;
+  private String incorrectDescription;
+  private int correctColor;
+  private int incorrectColor;
   private String[] categoryNames;
 
   public RoundAdapter(@NonNull Context context, @NonNull List<Round> objects) {
     super(context, R.layout.round_item, objects);
-    correct = context.getDrawable(R.drawable.check);
-    incorrect = context.getDrawable(R.drawable.error);
+    correctDrawable = context.getDrawable(R.drawable.check);
+    incorrectDrawable = context.getDrawable(R.drawable.error);
+    correctDescription = context.getString(R.string.correct_description);
+    incorrectDescription = context.getString(R.string.incorrect_description);
+    correctColor = ContextCompat.getColor(getContext(), R.color.correct);
+    incorrectColor = ContextCompat.getColor(getContext(), R.color.incorrect);
     Category[] categories = Category.values();
     categoryNames = new String[categories.length];
     Resources res = context.getResources();
@@ -53,9 +61,17 @@ public class RoundAdapter extends ArrayAdapter<Round> {
 
     valueDisplay.setText(Integer.toString(round.getValue()));
     categoryDisplay.setText(categoryNames[round.getCategory().ordinal()]);
-    resultDisplay.setImageDrawable(round.isCorrect() ? correct : incorrect);
-    layout.setBackgroundColor(ContextCompat.getColor(getContext(),
-        round.isCorrect() ? R.color.correct : R.color.incorrect));
+
+    if (round.isCorrect()){
+      resultDisplay.setImageDrawable(correctDrawable);
+      resultDisplay.setContentDescription(correctDescription);
+      layout.setBackgroundColor(correctColor);
+    } else{
+      resultDisplay.setImageDrawable(incorrectDrawable);
+      resultDisplay.setContentDescription(incorrectDescription);
+      layout.setBackgroundColor(incorrectColor);
+    }
+
     return layout;
   }
 }

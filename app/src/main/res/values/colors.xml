@@ -5,4 +5,6 @@
   <color name="colorAccent">#D81B60</color>
   <color name="correct">#20008000</color>
   <color name="incorrect">#20FF0000</color>
+  <color name="darkText">#FF000000</color>
+  <color name="lightText">#FFFFFFFF</color>
 </resources>
