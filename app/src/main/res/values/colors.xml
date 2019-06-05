@@ -7,4 +7,5 @@
   <color name="incorrect">#20FF0000</color>
   <color name="darkText">#FF000000</color>
   <color name="lightText">#FFFFFFFF</color>
+  <color name="backgroundText">#FFD0D0D0</color>
 </resources>

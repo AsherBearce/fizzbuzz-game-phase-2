@@ -38,4 +38,9 @@
   <string name="correct_description">Correct!</string>
   <string name="incorrect_description">Incorrect!</string>
 
+  <string name="fizz_marker">3</string>
+  <string name="buzz_marker">5</string>
+  <string name="fizzbuzz_marker"><![CDATA[3&5]]></string>
+  <string name="neither_marker">&#8212;</string>
+
 </resources>
