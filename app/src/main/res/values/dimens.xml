@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <dimen name="round_item_padding">8dp</dimen>
+  <dimen name="indicator_size">120dp</dimen>
+
 </resources>

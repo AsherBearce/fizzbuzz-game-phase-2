@@ -42,5 +42,6 @@
   <string name="buzz_marker">5</string>
   <string name="fizzbuzz_marker"><![CDATA[3&5]]></string>
   <string name="neither_marker">&#8212;</string>
+  <string name="time_expired_message">Time\'s up!</string>
 
 </resources>

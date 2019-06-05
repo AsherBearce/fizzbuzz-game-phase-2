@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
       gameTimeElapsed = savedInstanceState.getLong(gameTimeElapsedKey, 0);
     }
     if (game == null){
-      game = new Game(timeLimit, numDigits, gameDuration);
+      initGame();
     }
   }
 
@@ -170,9 +170,7 @@ public class MainActivity extends AppCompatActivity
       case R.id.reset:
         //TODO combine invocations of Game constructor
         //TODO add a reset prompt
-        game = new Game(timeLimit, numDigits, gameDuration);
-        gameTimeElapsed = 0;
-        complete = false;
+        initGame();
         Toast.makeText(this, "Your game has been reset.", Toast.LENGTH_LONG).show();
         pauseGame();
         break;
@@ -194,6 +192,12 @@ public class MainActivity extends AppCompatActivity
         break;
     }
     return handled;
+  }
+
+  private void initGame() {
+    game = new Game(timeLimit, numDigits, gameDuration);
+    gameTimeElapsed = 0;
+    complete = false;
   }
 
   /**
@@ -230,7 +234,7 @@ public class MainActivity extends AppCompatActivity
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     readSettings();
     pauseGame();
-    game = new Game(timeLimit, numDigits, gameDuration);
+    initGame();
   }
 
   private void readSettings(){
@@ -255,8 +259,7 @@ public class MainActivity extends AppCompatActivity
   private void resumeGame() {
     running = true;
     if (game == null){
-      game = new Game(timeLimit, numDigits, gameDuration);
-      gameTimeElapsed = 0;
+      initGame();
     }
     updateValue();
     startGameTimer();
@@ -364,7 +367,7 @@ public class MainActivity extends AppCompatActivity
       complete = true;
       runOnUiThread(()->{
         pauseGame();
-        Toast.makeText(MainActivity.this, "Time's up!", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, getString(R.string.time_expired_message), Toast.LENGTH_LONG).show();
         showStats();
       });
     }
