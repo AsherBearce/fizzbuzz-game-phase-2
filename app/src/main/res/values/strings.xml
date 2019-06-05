@@ -44,4 +44,6 @@
   <string name="neither_marker">&#8212;</string>
   <string name="time_expired_message">Time\'s up!</string>
 
+  <string name="clock_format">%1$d:%2$04.1f</string>
+
 </resources>

@@ -7,41 +7,14 @@
   android:layout_height="match_parent"
   tools:context=".controller.MainActivity">
 
+<!--  clock text-->
   <TextView
+    android:id="@+id/clock_display"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/fizzbuzz_marker"
-    style="@style/DirectionMarker"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/fizz_marker"
-    style="@style/DirectionMarker"
-    app:layout_constraintLeft_toLeftOf="parent"
+    style="@style/ClockDisplay"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/buzz_marker"
-    style="@style/DirectionMarker"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/neither_marker"
-    style="@style/DirectionMarker"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
+    app:layout_constraintEnd_toEndOf="parent"/>
 
   <ImageView
     android:id="@+id/correct_fizzbuzz_indicator"
@@ -130,6 +103,42 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     android:alpha="0"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/fizzbuzz_marker"
+    style="@style/DirectionMarker"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/fizz_marker"
+    style="@style/DirectionMarker"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/buzz_marker"
+    style="@style/DirectionMarker"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/neither_marker"
+    style="@style/DirectionMarker"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 
   <TextView
     android:id="@+id/value_display"
