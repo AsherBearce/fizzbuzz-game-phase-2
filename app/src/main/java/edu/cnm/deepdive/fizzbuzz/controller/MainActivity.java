@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
   private boolean complete;
   private TextView valueDisplay;
   private TextView clockDisplay;
+  private TextView directionsDisplay;
   private ViewGroup valueContainer;
   private Rect displayRect = new Rect();
   private GestureDetectorCompat detector;
@@ -58,9 +59,11 @@ public class MainActivity extends AppCompatActivity
   private int gameDuration;
   private long gameTimerStart;
   private long gameTimeElapsed;
+  private long lastValueShown;
   private String gameDataKey;
   private String gameTimeElapsedKey;
   private String clockFormat;
+  private String valueString;
 
   /**
    * Initializes this activity when created, and when restored after {@link #onDestroy()} (for
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     valueDisplay = findViewById(R.id.value_display);
     valueContainer = (ViewGroup) valueDisplay.getParent();
     clockDisplay = findViewById(R.id.clock_display);
+    directionsDisplay = findViewById(R.id.directions);
     detector = new GestureDetectorCompat(this, new FlingListener());
     valueContainer.setOnTouchListener(this);
     preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity
     gameDataKey = getString(R.string.game_data_key);
     gameTimeElapsedKey = getString(R.string.game_time_elapsed_key);
     clockFormat = getString(R.string.clock_format);
+    directionsDisplay.setText(getString(R.string.game_directions));
 
     if (savedInstanceState != null){
       game = (Game) savedInstanceState.getSerializable(gameDataKey);
@@ -260,6 +265,7 @@ public class MainActivity extends AppCompatActivity
 
   private void pauseGame() {
     running = false;
+    directionsDisplay.setVisibility(View.VISIBLE);
     stopValueTimer();
     stopGameTimer();
     valueDisplay.setText("");
@@ -272,6 +278,7 @@ public class MainActivity extends AppCompatActivity
     if (game == null){
       initGame();
     }
+    directionsDisplay.setVisibility(View.INVISIBLE);
     updateValue();
     startGameTimer();
     startValueTimer();
@@ -329,24 +336,12 @@ public class MainActivity extends AppCompatActivity
 
   private void updateValue() {
     int valueLimit = (int) Math.pow(10, numDigits) - 1;
-    int containerHeight = valueContainer.getHeight();
-    int containerWidth = valueContainer.getWidth();
-    int textHeight;
-    int textWidth;
-    String valueString;
     value = 1 + rng.nextInt(valueLimit);
     valueString = Integer.toString(value);
     valueDisplay.setTranslationX(0);
     valueDisplay.setTranslationY(0);
     valueDisplay.setText(valueString);
-    // HACK This assumes text is centered in layout.
-    valueDisplay.getPaint().getTextBounds(valueString, 0, valueString.length(), displayRect);
-    textHeight = displayRect.height();
-    textWidth = displayRect.width();
-    displayRect.top = (containerHeight - textHeight) / 2;
-    displayRect.bottom = (containerHeight + textHeight) / 2;
-    displayRect.left = (containerWidth - textWidth) / 2;
-    displayRect.right = (containerWidth + textWidth) / 2;
+    lastValueShown = System.currentTimeMillis();
   }
 
   private void startValueTimer() {
@@ -388,7 +383,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void run() {
       runOnUiThread(() -> {
-        recordRound(null);
+        if (System.currentTimeMillis() - lastValueShown > 2000){
+          recordRound(null);//TODO Check for how long the value was shown for
+        }
         updateValue();
         startValueTimer();
       });
@@ -479,6 +476,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onDown(MotionEvent evt) {
       boolean handled = false;
+
+      int containerHeight = valueContainer.getHeight();
+      int containerWidth = valueContainer.getWidth();
+      int textHeight;
+      int textWidth;
+      // HACK This assumes text is centered in layout.
+      valueDisplay.getPaint().getTextBounds(valueString, 0, valueString.length(), displayRect);
+      textHeight = displayRect.height();
+      textWidth = displayRect.width();
+      displayRect.top = (containerHeight - textHeight) / 2;
+      displayRect.bottom = (containerHeight + textHeight) / 2;
+      displayRect.left = (containerWidth - textWidth) / 2;
+      displayRect.right = (containerWidth + textWidth) / 2;
+
       if (displayRect.contains(Math.round(evt.getX()), Math.round(evt.getY()))) {
         originX = evt.getX() - valueDisplay.getTranslationX();
         originY = evt.getY() - valueDisplay.getTranslationY();

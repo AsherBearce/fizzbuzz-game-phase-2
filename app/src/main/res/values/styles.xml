@@ -36,4 +36,9 @@
     <item name="android:padding">4dp</item>
   </style>
 
+  <style name="DirectionsDisplay" parent="AppTheme">
+    <item name="android:textColor">@color/darkText</item>
+    <item name="android:textSize">30sp</item>
+  </style>
+
 </resources>
