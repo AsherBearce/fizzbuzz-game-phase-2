@@ -37,8 +37,8 @@
   </style>
 
   <style name="DirectionsDisplay" parent="AppTheme">
-    <item name="android:textColor">@color/darkText</item>
-    <item name="android:textSize">30sp</item>
+    <item name="android:textColor">@color/settingsIconColor</item>
+    <item name="android:textSize">20sp</item>
   </style>
 
 </resources>

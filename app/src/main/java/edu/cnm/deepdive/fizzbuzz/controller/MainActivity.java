@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
   private int numDigits;
   private int timeLimit;
   private int gameDuration;
+  private int minutesLeft;
+  private double secondsLeft;
   private long gameTimerStart;
   private long gameTimeElapsed;
   private long lastValueShown;
@@ -167,6 +169,8 @@ public class MainActivity extends AppCompatActivity
   private void showStats(){
     Intent intent = new Intent(this, StatusActivity.class);
     intent.putExtra(getString(R.string.game_data_key), game);
+    intent.putExtra(getString(R.string.minutes_key), minutesLeft);
+    intent.putExtra(getString(R.string.seconds_key), secondsLeft);
     startActivity(intent);
   }
 
@@ -363,19 +367,17 @@ public class MainActivity extends AppCompatActivity
     long remaining = (running || gameTimeElapsed > 0) ?
         gameDuration * 1000L - (System.currentTimeMillis() - gameTimerStart + gameTimeElapsed) :
         gameDuration * 1000L;
-    int minutes;
-    double seconds;
 
     if (remaining > 0){
-      minutes = (int)(remaining / 60_000);
-      seconds = (remaining % 60_000) / 1000.0;
+      minutesLeft = (int)(remaining / 60_000);
+      secondsLeft = (remaining % 60_000) / 1000.0;
     }
     else{
-      minutes = 0;
-      seconds = 0;
+      minutesLeft = 0;
+      secondsLeft = 0;
     }
 
-    clockDisplay.setText(String.format(clockFormat, minutes, seconds));
+    clockDisplay.setText(String.format(clockFormat, minutesLeft, secondsLeft));
   }
 
   private class TimeoutTask extends TimerTask {

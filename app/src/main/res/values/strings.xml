@@ -46,6 +46,10 @@
 
   <string name="clock_format">%1$d:%2$04.1f</string>
 
-  <string name="game_directions">Swipe the number in a direction corresponding to the multiples of that number!</string>
+  <string name="game_directions">(Swipe)</string>
+  <string name="digit_icon_text">#</string>
+
+  <string name="minutes_key">minutes_left</string>
+  <string name="seconds_key">seconds_left</string>
 
 </resources>

@@ -12,4 +12,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/digit_icon_text"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    android:textSize="60sp"
+    android:textColor="@color/settingsIconColor"
+    android:translationY="120dp"
+    android:translationX="10dp"/>
+
+  <ImageView
+    android:id="@+id/round_duration_icon"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:src="@drawable/round_duration_icon"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:translationY="50dp"/>
+
+  <ImageView
+    android:id="@+id/game_duration_icon"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:src="@drawable/game_duration_icon"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    android:translationY="250dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

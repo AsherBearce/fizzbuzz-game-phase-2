@@ -1,7 +1,5 @@
 package edu.cnm.deepdive.fizzbuzz.controller;
 
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +21,9 @@ public class StatusActivity extends AppCompatActivity {
     roundList = findViewById(R.id.round_list);
     Game game = (Game)getIntent().getSerializableExtra(getString(R.string.game_data_key));
     List<Round> rounds = game.getRounds();
+    int minutes = getIntent().getIntExtra(getString(R.string.minutes_key), 0);
+    double seconds = getIntent().getDoubleExtra(getString(R.string.seconds_key), 0);
+    String clockFormat = getString(R.string.clock_format);
     int totalRounds = rounds.size();
     int totalCorrect = 0;
 
@@ -33,9 +34,11 @@ public class StatusActivity extends AppCompatActivity {
     }
     TextView totalRoundsDisplay = findViewById(R.id.total_rounds);
     TextView totalCorrectDisplay = findViewById(R.id.total_correct);
+    TextView timeDisplay = findViewById(R.id.time_remaining);
 
     totalRoundsDisplay.setText(Integer.toString(totalRounds));
     totalCorrectDisplay.setText(Integer.toString(totalCorrect));
+    timeDisplay.setText("Time left: " + String.format(clockFormat, minutes, seconds));
 
     RoundAdapter adapter = new RoundAdapter(this, game.getRounds());
     roundList.setAdapter(adapter);
